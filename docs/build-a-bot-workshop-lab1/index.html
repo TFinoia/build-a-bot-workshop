@@ -1,0 +1,372 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Not-So-Secret Agents 3: Build-A-Bot Workshop</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/claat-public/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="build-a-bot-workshop-lab1"
+                  title="Not-So-Secret Agents 3: Build-A-Bot Workshop"
+                  environment="web"
+                  feedback-link="https://docs.google.com/forms/d/e/1FAIpQLSeV7II7blo1BE-rdetfXaBXDi9TMZUEKoHL1WCrIj-2Yifdvw/viewform?usp=dialog">
+    
+      <google-codelab-step label="Introduction" duration="0">
+        <p class="image-container"><img style="width: 624.00px" src="img\\de5fd1a49c8630fb.png"></p>
+<p><strong>Last Updated:</strong> 2025-11-17</p>
+<h2 is-upgraded><strong>What is Google Agent Development Kit (ADK)?</strong></h2>
+<p>As Google explains, ADK is &#34;an open-source, code-first Python toolkit designed for building, evaluating, and deploying sophisticated AI agents with flexibility and control.&#34; </p>
+<p>If you haven&#39;t reviewed Not-So-Secret Agents 2 just yet, take a moment to review for an introduction to what ADK is and how it comes into play for us building our first agent!</p>
+<h2 is-upgraded><strong>What you&#39;ll build</strong></h2>
+<p>In this codelab, you&#39;re going to build the following:</p>
+<ul>
+<li>A virtual environment</li>
+<li>A basic project file structure:</li>
+<li>__init__.py</li>
+<li>agent.py</li>
+<li>.env</li>
+</ul>
+<p class="image-container"><img style="width: 137.00px" src="img\\61c7a97ae5a3fac3.png"></p>
+<aside class="warning"><p><strong>Note:</strong> This project example will grow and change depending on your needs and as we add more advanced concepts.</p>
+</aside>
+<h2 class="checklist" is-upgraded><strong>What you&#39;ll learn</strong></h2>
+<ul class="checklist">
+<li>How to establish a starter work area for your agent build</li>
+<li>How to set up your project to allow local testing</li>
+<li>How to create a basic LLM agent</li>
+</ul>
+<h2 is-upgraded><strong>What you&#39;ll need</strong></h2>
+<ul>
+<li>Access to our sandbox GCP (Gen-Ai-Sandbox)</li>
+<li>If you do not have access, reach out to Tim Finoia (tfinoia@meditech.com)</li>
+<li>A virtual environment (we&#39;ll walk through this together!)</li>
+<li>Google-adk (we&#39;ll use pip install google-adk for this later)</li>
+<li>Cloud Shell</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Getting set up" duration="10">
+        <h2 is-upgraded><strong>Getting familiar with Cloud Shell</strong></h2>
+<p>There are a number of ways for us to approach creating our project (Local IDE, Cloud Workstation, Cloud Shell, etc...) but today we&#39;ll be using Cloud Shell to ensure that all users have a common starting point.</p>
+<p>To access Cloud Shell, navigate to the Google Project you&#39;ll be using.  In this case, we&#39;ll be using:</p>
+<p><a href="https://console.cloud.google.com/welcome?pli=1&project=gen-ai-sandbox-388420" target="_blank">Gen-AI-Sandbox</a></p>
+<p>If you&#39;re unable to access the GCP, please contact Tim Finoia. </p>
+<p>From your GCP Home Screen, locate the &#34;Activate Cloud Shell&#34; button in the upper right:</p>
+<p class="image-container"><img style="width: 624.00px" src="img\\a2e34b681652ad2e.png"></p>
+<p>If this is your first time using Cloud Shell, you may need to select AUTHORIZE to allow it to start up for your user for this project. Once this completes, you are now in the Cloud Shell Terminal, </p>
+<p>but we&#39;ll want to work from the editor. In the middle of the screen, select OPEN EDITOR:</p>
+<p class="image-container"><img style="width: 624.00px" src="img\\ae1e289e5284e56a.png"></p>
+<p>From your editor, we&#39;ll open a new terminal from the menu bar:</p>
+<p class="image-container"><img style="width: 493.00px" src="img\\75a7e399b8eb231.png"></p>
+<p>You should now see your user@cloudshell followed by your Google project name, and now we&#39;re ready to start setting up!</p>
+<h2 is-upgraded>Virtual Environments In Python</h2>
+<p>It&#39;s always recommended to create a virtual environment for your project, but what is a virtual environment?</p>
+<p>Imagine you&#39;re a chef and you&#39;ve entered your kitchen. You take out all of your ingredients and begin preparing your sauce; chopping and setting aside vegetables and measuring out your spices and liquids that you&#39;ll be adding. Now imagine you&#39;re sharing that kitchen with 3 other chefs who are making their own dishes with their own ingredients and that work area can quickly become chaos as everyone mixes up who needs what. That&#39;s where our virtual environment comes in. </p>
+<p>Picture it as every chef getting their own personal cooking station so that what one person needs is never mixed into someone else&#39;s ingredients. The virtual environment we create allows us to have an isolated version of Python that is specific to our needs, and we can keep projects restricted to only the libraries (and versions) we need. </p>
+<h3 is-upgraded><strong>Creating Your Virtual Environment</strong></h3>
+<p>In your terminal, we&#39;ll use the following command to create our virtual environment:</p>
+<aside class="special"><p>python3 -m venv venv</p>
+</aside>
+<p>Let&#39;s break down what this is doing:</p>
+<p><em>python3</em></p>
+<ul>
+<li>This tells the system, &#34;we&#39;re about to use the python interpreter so let&#39;s get that started&#34;. The ‘3&#39; is indicating that we&#39;re specifically using the newer Python 3 as opposed to an older version (ex. Just python usually assumes you mean Python 2)</li>
+</ul>
+<p><em>-m</em></p>
+<ul>
+<li>When we started with python3, we told it we need the interpreter so it expects a file we want to run (ex. python3 main.py). The -m then becomes a flag or switch to let it know that we&#39;re not giving it a file, we&#39;re about to tell it to use one of its internal modules.</li>
+</ul>
+<p><em>venv</em> (the first one)</p>
+<ul>
+<li>We just told the system we need it to use one of its modules, so now this is telling it which one. </li>
+</ul>
+<p><em>venv</em> (the second one)</p>
+<ul>
+<li>The first venv told the system we want to use the venv module to create a virtual environment, and our second one is giving a name to the environment. Realistically you can use whatever you&#39;d like here (ex. python3 -m venv testingzone) but usually we&#39;ll see venv or .venv for simplicity sake. </li>
+</ul>
+<aside class="warning"><p><strong>Note:</strong> If you&#39;re unfamiliar with what a Python &#34;interpreter&#34; is, think of it like a human translator. When we use a programming language, the interpreter translates our English-like code behind the scenes into the machine code that the computer can actually process.</p>
+<p>This is why we can just type <strong><em>print(&#34;Hello World!&#34;)</em></strong> instead of inputting 01110000 01110010 01101001 01101110 01110100 00101000 00100010 01001000 01100101 01101100 01101100 01101111 00100000 01110111 01101111 01110010 01101100 01100100 00100001 00100010 00101001 ourselves!</p>
+</aside>
+<p>After inputting the command, you&#39;ll be returned to a new line in your terminal (no news is good news in this case), but you will see a new folder named venv (or whatever name you used) appear in your explorer screen on the left:</p>
+<p class="image-container"><img style="width: 294.00px" src="img\\6f087b9a1cafa67a.png"></p>
+<p>Just having the virtual environment does nothing for us unless we activate it though, so let&#39;s use the following command:</p>
+<aside class="special"><p>source venv/bin/activate</p>
+</aside>
+<p>Source is a unix/linux unique command that tells the system that we want to execute a command in our existing shell session. The path that follows is the series of folders to get to the script we want to run (in this case to activate the virtual environment). You&#39;ll know if the command worked if your terminal command line now displays your venv name in parenthesis before it:</p>
+<p class="image-container"><img style="width: 516.00px" src="img\\dff653ae0f4ad327.png"></p>
+<p>We now have our virtual environment created, activated, and we&#39;re ready to start grabbing all our ingredients!</p>
+<h2 is-upgraded><strong>Setting Up Our Agent Project</strong></h2>
+<h3 is-upgraded><strong>Library Installation</strong></h3>
+<p>Since we now have our active virtual environment, let&#39;s install our first library. In your terminal, we&#39;ll type:</p>
+<aside class="special"><p>pip install google-adk</p>
+</aside>
+<p>PIP is a package installer. What we&#39;re doing is telling PIP that we want to install a package/library named google-adk and it&#39;s searching for what that entails, and then proceeds to download/install. </p>
+<p>You may be asking, &#34;I just asked for google-adk, why am I seeing so many things downloaded and installed?&#34; These are dependencies. Think of it like buying a remote-control car, and the box includes batteries and a mini-screwdriver. You didn&#39;t specifically <em>buy</em> these items, but they were included because they are necessary for your new car to function (opening the battery compartment and adding batteries to run). PIP is automatically checking what other things are required for your desired library to run, and proactively installs those as well. </p>
+<h3 is-upgraded><strong>Creating Our Project Structure</strong></h3>
+<p>To get started with our project, we&#39;ll need a folder to keep our files in. Let&#39;s create that folder we&#39;ll place our work in by typing the following into our terminal:</p>
+<aside class="special"><p>Mkdir BuildABot</p>
+</aside>
+<p>This is telling the system to create a folder (Mkdir or Make Directory) where we currently are named BuildABot for our project. </p>
+<p>We&#39;ll then type the following into our terminal to change the directory we&#39;re in (cd) to the new folder we made:</p>
+<aside class="special"><p>cd BuildABot</p>
+</aside>
+<p>We&#39;ll then create a folder to store all of our agent files in. This agent folder will let our testing UI recognize the agent later:</p>
+<aside class="special"><p>Mkdir agent</p>
+</aside>
+<p>We&#39;ll then navigate to that new folder before creating our files with another change directory:</p>
+<aside class="special"><p>cd agent</p>
+</aside>
+<p>And lastly, we&#39;ll type this into the terminal:</p>
+<aside class="special"><p>touch __init__.py agent.py .env</p>
+</aside>
+<p>‘touch&#39; is a command that tells the system to create the following empty files without actually opening each of them. This helps us create some foundation we can begin building on. </p>
+<aside class="warning"><p><strong>Note: </strong>If you&#39;re not seeing our <em>.env</em> file in your project folder, it&#39;s because some systems like Cloud Shell try to declutter your view by setting files beginning with a period ‘.&#39; to hidden. Go to VIEW on your menu bar, and select TOGGLE HIDDEN FILES to see our <em>.env</em>. We&#39;ll now see what else has been hiding behind the scenes, but we can ignore those other folders.</p>
+</aside>
+<p>With that, we&#39;re finally ready to start getting into our Agent build!</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Building Your Agent" duration="30">
+        <h2 is-upgraded><strong>What Are These Files?</strong></h2>
+<p>So we have our initial files, but what are they and why did we need them? Let&#39;s break these 3 files down:</p>
+<p><em>__init__.py</em></p>
+<ul>
+<li>This stands for <strong>Initialization</strong>. Adding the __init__.py file tells Python that this should be treated as a regular package and helps our other files communicate with each other. </li>
+</ul>
+<aside class="warning"><p><strong>Note: </strong>As of Python 3.3, without the __init__.py file, the folder is treated as a <em>Namespace Package</em> instead. So we can still get things to function as needed, but it requires some extra hoops. Think of this as a receptionist in an office building. You can still find who you&#39;re looking for without one, but it&#39;ll make the job much easier and more direct with them involved.</p>
+</aside>
+<p><em>.env</em></p>
+<ul>
+<li>This stands for <strong>Environment</strong>. This file lets us store settings based on where we run the code. This way we can just update the values in our .env file rather than having to make changes directly in the rest of our code. For example, our google project location of us-central1 might not be the case for everyone, so changing a variable of LOCATION=&#39;us-central1&#39; to LOCATION=&#39;us-east3&#39; in our .env file is cleaner and easier than making those changes throughout our agent.py or any other eventual files we need.</li>
+</ul>
+<aside class="warning"><p><strong>Note:</strong> The other benefit of the <em>.env</em> file is <strong>SECURITY</strong>. We can set certain files to be ignored when working with our GitHub repository. Since our <em>.env</em> may contain specifics to what we need, we can ensure the project runs for us without sharing any of those settings or info with others. They can then fill out their own <em>.env</em> file without worrying bots or users will obtain any sensitive information. Also to note, don&#39;t place API keys in your <em>.env</em> file. We have other methods of making use of sensitive items like keys without exposing that (even if we are setting it in .gitignore) </p>
+</aside>
+<p><em>agent.py</em></p>
+<ul>
+<li>The actual agent code! This file will hold the actual instructions and settings that allow our agent to function. </li>
+</ul>
+<h2 is-upgraded><strong>Starting To Build</strong></h2>
+<p>We now have our 3 files, but what do we do with them? We&#39;ll walk through each file together.</p>
+<h3 is-upgraded>__init__.py</h3>
+<p>Let&#39;s start with our <em>__init__.py</em> file. Open the file and in the editor window, type (or paste) the following:</p>
+<aside class="special"><p>from . import agent</p>
+</aside>
+<p>Our ‘<em>from&#39; </em>lets the system know that a location or path is about to follow for where to look. In our case, our location is a simple ‘<em>.</em>&#39; that says, &#34;the location to look to is the folder we&#39;re already in&#34; (this is called a <em>relative import</em>). Since we&#39;re now looking in our existing folder, we give a command of ‘<em>import&#39;</em> to load something (a class, a file, etc...) from the location we defined. In this case, we telling it to look to our current folder and import the agent module from our agent.py file.</p>
+<p>This __init__.py is the first thing that&#39;ll run when our package is used, so this will make sure our agent code is loaded and ready to go.</p>
+<h3 is-upgraded><strong>.env</strong></h3>
+<p>Now let&#39;s get our environment variables populated. Open the .env file and in the editor screen, type/paste:</p>
+<aside class="special"><p>GOOGLE_GENAI_USE_VERTEXAI=true</p>
+<p>GOOGLE_CLOUD_PROJECT=&#34;gen-ai-sandbox-388420&#34;</p>
+<p>GOOGLE_CLOUD_LOCATION=&#34;us-central1&#34;</p>
+</aside>
+<p>Let&#39;s look at each line:</p>
+<p><em>GOOGLE_GENAI_USE_VERTEXAI=true</em></p>
+<ul>
+<li>While we can use a number of LLM&#39;s with Google ADK, today we&#39;ll be using Gemini. There are a few ways to do this; either by using the public API (which requires users to generate API keys for their own usage) or via the Enterprise Platform (Vertex AI). Rather than everyone having to gain permissions to generate their own API keys, we&#39;ll make use of the fact we already have a Google project set up to be used as a sandbox. This line tells the system &#34;We won&#39;t be using a personal API key. Let&#39;s log in through our Google Cloud Platform instead.&#34;</li>
+</ul>
+<p><em>GOOGLE_CLOUD_PROJECT=&#34;gen-ai-sandbox-388420&#34;</em></p>
+<ul>
+<li>So we&#39;ve said we&#39;ll be leveraging our existing Google project, but how does the system know what one? This sets the Cloud Project we&#39;ll be using in this case. You can find the Project ID by selecting the project name (Gen-AI-Sandbox in our case) in the upper left of your screen by the Google Cloud logo. From here you&#39;ll see the project name and then the actual ID.</li>
+</ul>
+<p><em>GOOGLE_CLOUD_LOCATION=&#34;us-central1&#34;</em></p>
+<ul>
+<li>The &#34;cloud&#34; may sound like this nebulous force in the sky, but realistically it still is coming from a data center <em>somewhere</em>. In our case, this is letting the system know that we&#39;ll be using the location of us-central1. Depending on where we choose, it helps keep costs and latency lower by keeping it as local as possible and by avoiding having things operating across regions instead of within the same one. </li>
+</ul>
+<p>Now that we have our .env file, let&#39;s finally move onto our agent.</p>
+<h3 is-upgraded><strong>agent.py</strong></h3>
+<p>This is where things will get a little busier than the few lines we&#39;d had to add so far in our other files. Open your agent.py file and in the editor, we&#39;ll type/paste:</p>
+<aside class="special"><p>import os</p>
+<p>from dotenv import load_dotenv</p>
+<p>dotenv_path = os.path.join(os.path.dirname(__file__), &#39;.env&#39;)</p>
+<p>load_dotenv(dotenv_path)</p>
+<p>from google.adk.agents import Agent</p>
+<p>from google.adk.tools import google_search</p>
+<p>def create_agent() -&gt; Agent:</p>
+<p>    &#34;&#34;&#34;Construct the root agent.&#34;&#34;&#34;</p>
+<p>    return Agent(</p>
+<p>        name=&#34;root_agent&#34;,</p>
+<p>        model=&#34;gemini-2.5-flash&#34;,</p>
+<p>        description=&#34;The main orchestrator agent that answers user questions.&#34;,</p>
+<p>        sub_agents=[],</p>
+<p>        instruction=&#34;&#34;&#34;</p>
+<p>        You are a helpful, newly-hired assistant. You will try to answer user questions to the best of your abilities, </p>
+<p>       but only when you can verify that your answers are valid and your sources can be cited. If you are asked to perform a task you are incapable of, </p>
+<p>        you can politely inform the user that you&#39;re still being developed and that you may need to be given a new tool or subagent.</p>
+<p>        Keep your answers friendly and informative without being overly wordy.</p>
+<p>        &#34;&#34;&#34;,</p>
+<p>        tools=[google_search],</p>
+<p>    )</p>
+<p>root_agent = create_agent()</p>
+</aside>
+<p>Well that&#39;s a mess of text if you&#39;re not familiar with everything going on in there. Let&#39;s break it down:</p>
+<aside class="special"><p>import os</p>
+<p>from dotenv import load_dotenv</p>
+<p>dotenv_path = os.path.join(os.path.dirname(__file__), &#39;.env&#39;)</p>
+<p>load_dotenv(dotenv_path)</p>
+<p>from google.adk.agents import Agent</p>
+<p>from google.adk.tools import google_search</p>
+</aside>
+<p>This section is pulling in our settings and other items that we&#39;ll need to use for our agent to function:</p>
+<ul>
+<li>Our first 4 lines are importing a couple standard python tools that let us communicate with the operating system, and then to allow us to load our .env file contents from the folder we&#39;re in.</li>
+<li>The next 2 lines are pulling in some other specific items we need (the Agent class, and the google_search tool) that are part of the google-adk library we installed earlier.  </li>
+</ul>
+<aside class="special"><p>def create_agent() -&gt; Agent:</p>
+<p>    &#34;&#34;&#34;Construct the root agent.&#34;&#34;&#34;</p>
+</aside>
+<ul>
+<li>Next we&#39;re creating (or <strong>def</strong>ining) a function called &#34;create_agent&#34; and giving it a type hint of &#34;Agent&#34;. This is just to let us (and our autocomplete) know that when we begin using root_agent in our code later, we&#39;ll get prompted with options that an Agent would normally get since it knows that&#39;s what our command is tied to. The ‘:&#39; is there to let the system know that we&#39;re ending the definition and anything under this that is indented belongs to the function we made. </li>
+<li>Our next line with the triple quotes is known as a docstring. It&#39;s just a note to give more information to the developers looking at the code. In this case, it&#39;s a reminder of what the purpose is for the function we&#39;ve made. Good documentation now will save you headaches later!</li>
+</ul>
+<aside class="special"><p>    return Agent(</p>
+<p>        name=&#34;root_agent&#34;,</p>
+<p>        model=&#34;gemini-2.5-flash&#34;,</p>
+<p>        description=&#34;The main orchestrator agent that answers user questions.&#34;,</p>
+<p>        sub_agents=[],</p>
+<p>        instruction=&#34;&#34;&#34;</p>
+<p>        You are a helpful, newly-hired assistant. You will try to answer user questions to the best of your abilities, </p>
+<p>       but only when you can verify that your answers are valid and your sources can be cited. If you are asked to perform a task you are incapable of, </p>
+<p>        you can politely inform the user that you&#39;re still being developed and that you may need to be given a new tool or subagent.</p>
+<p>        Keep your answers friendly and informative without being overly wordy.</p>
+<p>        &#34;&#34;&#34;,</p>
+<p>        tools=[google_search],</p>
+<p>    )</p>
+</aside>
+<p>Now we&#39;re into the actual DNA of the agent. This section controls everything from the name to the brain to the way the agent works/thinks and so on.</p>
+<aside class="warning"><p><strong>Note:</strong> The commas you see after each section are to indicate that one piece of information is ending and the next one is beginning. This way the system knows that we&#39;re done setting a <em>name</em> and we&#39;re ready to define the <em>model</em> in our agent. Leaving out our commas will flag an error in your editor to help you catch if you miss these. </p>
+</aside>
+<p><strong>return Agent(</strong></p>
+<ul>
+<li>We imported our Agent blueprint earlier (back in Line 7 of agent.py), so now we&#39;re saying that everything within the following parentheses is going to define how our agent works.</li>
+</ul>
+<p><strong>name</strong>=&#34;root_agent&#34;,</p>
+<ul>
+<li>Exactly as it sounds. We&#39;re giving our agent a name!</li>
+</ul>
+<p><strong>model</strong>=&#34;gemini-2.5-flash&#34;,</p>
+<ul>
+<li>We&#39;re setting up the brains of this agent. Behind the scenes, what LLM does this agent use to complete its thinking and actions?</li>
+</ul>
+<p><strong>description</strong>=&#34;The main orchestrator agent that answers user questions.&#34;,</p>
+<ul>
+<li>A quick description of what this agent does and what it is used for. If you ever have multiple agents working together and pulling each other in for usage, they&#39;ll use this description to know what this agent does well and if they should be used. You&#39;ll see later that this is similar to how our root agent uses descriptions of sub agents to know who to delegate to.</li>
+</ul>
+<p><strong>sub_agents</strong>=[],</p>
+<ul>
+<li>This is where we would define our various sub-agents, if we had them! Rather than having a single agent try to do everything well itself, we can create various specialist sub-agents that join the list here so the root agent knows who is on the roster to possibly send problems to.</li>
+</ul>
+<p><strong>instruction</strong>=&#34;&#34;&#34;.......&#34;&#34;&#34;</p>
+<ul>
+<li>This is the actual instruction that this specific agent will follow. We place it in a docstring so we can easily write multiple line entries without issue. This is the key to the whole agent in terms of how it acts, how it needs to work, its do&#39;s and don&#39;ts, etc...</li>
+</ul>
+<p><strong>tools</strong>=[google_search],</p>
+<ul>
+<li>This is the toolkit we&#39;re giving our agent to use as needed. Tools will have their own descriptions and usages so that our agent can decide on if it needs to use a particular tool. We can create our own tools, but in this case we&#39;re just using a standard tool found in Google ADK.</li>
+</ul>
+<p><strong>)</strong></p>
+<ul>
+<li>Don&#39;t forget that everything we just did is inside that return Agent( we started way back at the top of this section. This closes that out and lets us move on.</li>
+</ul>
+<aside class="special"><p>root_agent = create_agent()</p>
+</aside>
+<p>And finally, we have our start button. We&#39;ve imported and defined everything we need for our agent to function, but this actually uses our create_agent() to create our agent object and save it to root_agent. </p>
+<p>We can now test!</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Testing Your Agent" duration="0">
+        <p>There are a number of built-in ways for us to test out agents built with Google ADK, but today we&#39;ll use their standard web UI by using <strong><em>adk web</em></strong>.</p>
+<aside class="warning"><p><strong>Note</strong>: If you&#39;ve never used Google Cloud previously, you may need to authenticate before we launch our test. In your terminal, you can type/paste <strong><em>gcloud auth application-default login </em></strong>and then follow the link to confirm your Google login to get an authentication code to paste into the terminal. This will let the system know who you are and that you&#39;re permitted to proceed. Without this, when we try to talk to our agent, you will most likely be met with an error in the chat and terminal.</p>
+</aside>
+<p>Go back to your terminal, and make sure we&#39;re still in our virtual environment and in our main project folder:</p>
+<p class="image-container"><img style="width: 512.00px" src="img\\46564d639c2a0403.png"></p>
+<p>In your terminal, type/paste:</p>
+<aside class="special"><p>adk web</p>
+</aside>
+<p>ADK web is a built-in web UI from Google ADK that gives us a screen to test the chat of our agent as well as inspect some details such as individual events in the conversation and how the agent is sending messages and processing information behind the scenes. </p>
+<aside class="warning"><p><strong>Note:</strong> During the creation of this class, a new feature was added in ADK Web that enables a visual builder for creating agents similar to services like n8n. We will get more into that feature at a later time. </p>
+</aside>
+<p>Once the terminal shows all the processes kicking off for us, it should then end with a notification that we can go to a link for local testing:</p>
+<p class="image-container"><img style="width: 624.00px" src="img\\9b79d6f6d457998e.png"></p>
+<p>Ctrl+Click the bottom http link on the INFO line to be taken to the ADK Web UI!</p>
+<p class="image-container"><img style="width: 624.00px" src="img\\3054c4f04eadb9b5.png"></p>
+<p>If your agent is recognized, you can begin typing a message into the chat as you would with any other LLM you may be familiar with (Gemini, ChatGPT, etc...) and you should be treated to a response. </p>
+<p>Since we gave it a tool of google_search, let&#39;s test that. </p>
+<p>In our chat, we&#39;ll ask:</p>
+<aside class="special"><p>Should I bring a sweater to Foxboro MA today?</p>
+</aside>
+<p>We should see that it&#39;s thinking for a moment before returning our answer:<br></p>
+<p class="image-container"><img style="width: 624.00px" src="img\\796b9390d4fb681d.png"></p>
+<p>On the left of the screen, we have a number of tools we can use during development of our agent. For example, from the TRACE tab, we can select the Invocations in the conversation to see what was occurring behind the scenes during your question and how long it took:</p>
+<p class="image-container"><img style="width: 436.00px" src="img\\d05f3f36e9534d87.png"></p>
+<p>We can then go to the EVENTS tab to dive into the specifics of how the agent saw the response, how it leveraged its internal instructions, all the way through the searches it performed and data it returned during the answering of your question. All of this is to help demystify what is happening behind the scenes and help developers better understand how their agent is performing and where there may be issues. </p>
+<p class="image-container"><img style="width: 446.00px" src="img\\b93053fd291881c5.png"></p>
+<p>When you&#39;re done testing your agent and reviewing the results, you can go back to your Cloud Shell terminal and use Ctrl + C in the terminal to end adk web. </p>
+<p class="image-container"><img style="width: 624.00px" src="img\\b23e8b6cb96d0b44.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Congratulations" duration="0">
+        <p>Congratulations, you&#39;ve successfully built your first agent using ADK! There is so much more to explore and do, but for today you&#39;ve taken a step into the world of agents!</p>
+<p>So far you&#39;ve:</p>
+<ul>
+<li>Created/Activated A Virtual Environment</li>
+<li>Installed google-adk and required dependencies</li>
+<li>Created starting project files in your project folder</li>
+<li>Set up your .env file for all your environment variables</li>
+<li>Created a basic agent that can answer questions using an LLM</li>
+<li>Gave it a tool to use during the conversation</li>
+<li>Tested the agent using adk web</li>
+</ul>
+<h2 is-upgraded><strong>What&#39;s next?</strong></h2>
+<p>Check out some of these codelabs (as soon as I finish writing them!)</p>
+<ul>
+<li>Prompting &amp; System Instructions</li>
+<li>Multi-Tool Usage</li>
+<li>Sub-Agents and Delegations in Multi-Agent Systems</li>
+<li>Session Handling and Memory State</li>
+<li>Connecting To A UI</li>
+<li>Deploying Your Agent</li>
+</ul>
+<h2 is-upgraded><strong>Reference docs</strong></h2>
+<ul>
+<li><a href="https://google.github.io/adk-docs/" target="_blank">Agent Development Kit</a></li>
+<li><a href="https://github.com/google/adk-python" target="_blank">Google ADK Github</a></li>
+</ul>
+<h2 is-upgraded><strong>Feedback Form</strong></h2>
+<p>Please feel free to provide feedback in <a href="https://docs.google.com/forms/d/e/1FAIpQLSeV7II7blo1BE-rdetfXaBXDi9TMZUEKoHL1WCrIj-2Yifdvw/viewform?usp=dialog" target="_blank">our feedback form</a> to help adjust this class and any future classes!</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/claat-public/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/prettify.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>

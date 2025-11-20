@@ -1,0 +1,27 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2025-11-20T02:01:58Z",
+  "id": "build-a-bot-workshop-lab1",
+  "duration": 40,
+  "title": "Not-So-Secret Agents 3: Build-A-Bot Workshop",
+  "authors": "Tim Finoia",
+  "summary": "Provides an introductory understanding of how Google's Agent Development Kit (ADK) is used and how to create a basic starter agent to build on in later work.",
+  "source": "1Z2TX4n_AT-gcPDQFsbm1aPIEGHlA8Ppo_S3hbwivMfo",
+  "theme": "web",
+  "status": [
+    "hidden"
+  ],
+  "category": [
+    "web",
+    "adk",
+    "agents"
+  ],
+  "tags": [
+    "web"
+  ],
+  "feedback": "https://docs.google.com/forms/d/e/1FAIpQLSeV7II7blo1BE-rdetfXaBXDi9TMZUEKoHL1WCrIj-2Yifdvw/viewform?usp=dialog",
+  "url": "build-a-bot-workshop-lab1"
+}
