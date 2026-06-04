@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>You Did It! — Build-A-Bot Workshop</title>
+  <title>Not-So-Secret Agents — Codelabs</title>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Google+Sans+Text:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
       --blue:   #1A73E8;
+      --blue-lt:#E8F0FE;
       --blue-dk:#1557B0;
       --red:    #EA4335;
-      --red-dk: #C5221F;
       --green:  #34A853;
       --yellow: #FBBC04;
       --bg:     #F8F9FA;
@@ -20,268 +20,320 @@
       --text:   #202124;
       --muted:  #5F6368;
       --border: rgba(0,0,0,0.12);
+      --chip-coming-bg: #F1F3F4;
+      --chip-coming-text: #80868B;
     }
 
     body {
       min-height: 100vh;
       background: var(--bg);
       font-family: 'Google Sans Text', 'Google Sans', sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem 1rem;
-    }
-
-    .card {
-      background: var(--surface);
-      border-radius: 24px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 8px 32px rgba(0,0,0,0.08);
-      padding: 3rem 2.5rem 2.5rem;
-      max-width: 480px;
-      width: 100%;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.25rem;
-    }
-
-    /* ── Badge ── */
-    .badge-wrap {
-      position: relative;
-      width: 200px;
-      height: 220px;
-      animation: popIn 0.7s cubic-bezier(.22,.61,.36,1) both;
-    }
-
-    .badge-wrap svg { overflow: visible; }
-
-    @keyframes popIn {
-      0%   { transform: scale(0.4); opacity: 0; }
-      70%  { transform: scale(1.08); }
-      100% { transform: scale(1);   opacity: 1; }
-    }
-
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scaleY(1); }
-      50%       { transform: scaleY(1.04); }
-    }
-
-    .ring-spin {
-      transform-origin: 100px 95px;
-      animation: spin 10s linear infinite;
-    }
-
-    .ribbon-l { transform-origin: 86px 185px; animation: pulse 3s ease-in-out infinite; }
-    .ribbon-r { transform-origin: 114px 185px; animation: pulse 3s ease-in-out infinite; }
-
-    /* ── Stars ── */
-    .stars {
-      display: flex;
-      gap: 6px;
-      justify-content: center;
-      animation: fadeUp 0.5s 0.7s ease both;
-    }
-
-    .star {
-      font-size: 22px;
-      color: var(--yellow);
-      text-shadow: 0 1px 4px rgba(251,188,4,0.4);
-    }
-
-    /* ── Heading ── */
-    h1 {
-      font-family: 'Google Sans', sans-serif;
-      font-size: 1.6rem;
-      font-weight: 700;
       color: var(--text);
-      line-height: 1.3;
-      animation: fadeUp 0.5s 0.5s ease both;
     }
 
-    /* ── Message ── */
-    .message {
-      font-size: 0.95rem;
-      color: var(--muted);
-      line-height: 1.75;
-      max-width: 380px;
-      animation: fadeUp 0.5s 0.65s ease both;
-    }
-
-    /* ── Divider ── */
-    hr {
-      width: 100%;
-      border: none;
-      border-top: 1px solid var(--border);
-      animation: fadeUp 0.4s 0.8s ease both;
-    }
-
-    /* ── CTA button ── */
-    .cta {
-      display: inline-flex;
+    /* ── Header ── */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
       align-items: center;
-      gap: 8px;
-      background: var(--blue);
-      color: #fff;
-      font-family: 'Google Sans', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 500;
-      padding: 10px 22px;
-      border-radius: 100px;
-      text-decoration: none;
-      transition: background 0.18s, box-shadow 0.18s;
-      animation: fadeUp 0.5s 0.9s ease both;
-      box-shadow: 0 2px 8px rgba(26,115,232,0.3);
+      gap: 12px;
     }
 
-    .cta:hover {
-      background: var(--blue-dk);
-      box-shadow: 0 4px 16px rgba(26,115,232,0.4);
-    }
-
-    .cta svg { flex-shrink: 0; }
-
-    /* ── Footer note ── */
-    .footer-note {
-      font-size: 0.78rem;
-      color: #9AA0A6;
-      animation: fadeUp 0.4s 1.05s ease both;
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(14px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ── Google dots ── */
     .google-dots {
       display: flex;
-      gap: 5px;
-      justify-content: center;
-      margin-bottom: 0.25rem;
-      animation: fadeUp 0.4s 0.3s ease both;
+      gap: 4px;
+      align-items: center;
     }
 
     .dot {
-      width: 8px; height: 8px;
+      width: 9px; height: 9px;
       border-radius: 50%;
+      flex-shrink: 0;
     }
     .dot-b { background: var(--blue); }
-    .dot-r { background: var(--red); }
-    .dot-y { background: var(--yellow); }
+    .dot-r { background: var(--green); }
+    .dot-y { background: var(--blue); }
     .dot-g { background: var(--green); }
+
+    .header-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .header-title span {
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 3rem 2rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 0.6rem;
+    }
+
+    .hero h1 {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+
+    .hero p {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 560px;
+    }
+
+    /* ── Grid ── */
+    .grid-section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 2rem 4rem;
+    }
+
+    .section-label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── Tile ── */
+    .tile {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.4rem 1.25rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      transition: box-shadow 0.18s, transform 0.18s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tile.live {
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .tile.live:hover {
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      transform: translateY(-2px);
+    }
+
+    .tile.live::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--green));
+      border-radius: 12px 12px 0 0;
+    }
+
+    .tile.coming {
+      opacity: 0.7;
+    }
+
+    .tile-number {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .tile-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.35;
+    }
+
+    .tile.coming .tile-title {
+      color: var(--muted);
+    }
+
+    .tile-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .tile-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.4rem;
+    }
+
+    .chip {
+      font-size: 0.72rem;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 100px;
+    }
+
+    .chip-live {
+      background: #E6F4EA;
+      color: #137333;
+    }
+
+    .chip-coming {
+      background: var(--chip-coming-bg);
+      color: var(--chip-coming-text);
+    }
+
+    .tile-arrow {
+      font-size: 1rem;
+      color: var(--blue);
+      transition: transform 0.15s;
+    }
+
+    .tile.live:hover .tile-arrow {
+      transform: translateX(3px);
+    }
+
+    .tile-icon {
+      font-size: 1.5rem;
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.78rem;
+      color: #9AA0A6;
+      border-top: 1px solid var(--border);
+    }
+
+    footer a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    footer a:hover { text-decoration: underline; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero        { animation: fadeUp 0.5s ease both; }
+    .grid-section{ animation: fadeUp 0.5s 0.15s ease both; }
   </style>
 </head>
 <body>
-  <div class="card">
 
+  <header>
     <div class="google-dots" aria-hidden="true">
       <span class="dot dot-b"></span>
       <span class="dot dot-r"></span>
       <span class="dot dot-y"></span>
       <span class="dot dot-g"></span>
     </div>
+    <span class="header-title">Not-So-Secret Agents <span>/ Codelabs</span></span>
+  </header>
 
-    <!-- Badge SVG -->
-    <div class="badge-wrap" role="img" aria-label="Completion badge for Build-A-Bot Workshop">
-      <svg width="200" height="220" viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+  <section class="hero">
+    <p class="hero-eyebrow">Workshop Series</p>
+    <h1>Not-So-Secret Agents</h1>
+    <p>A hands-on series for building AI agents with Google's Agent Development Kit (ADK). Pick up where you left off or start from the beginning.</p>
+  </section>
 
-        <!-- Ribbons -->
-        <g class="ribbon-l">
-          <polygon points="72,152 52,218 78,202 100,218" fill="#EA4335"/>
-          <polygon points="72,152 52,218 78,202 100,218" fill="#C5221F" opacity="0.25"/>
-        </g>
-        <g class="ribbon-r">
-          <polygon points="128,152 148,218 122,202 100,218" fill="#EA4335"/>
-          <polygon points="128,152 148,218 122,202 100,218" fill="#C5221F" opacity="0.25"/>
-        </g>
+  <div class="grid-section">
 
-        <!-- Outer glow ring -->
-        <circle cx="100" cy="95" r="74" fill="#E8F0FE" opacity="0.6"/>
+    <p class="section-label">Available now</p>
+    <div class="grid">
 
-        <!-- Main circle -->
-        <circle cx="100" cy="95" r="70" fill="#1A73E8"/>
-        <circle cx="100" cy="95" r="70" fill="#1557B0" opacity="0.2"/>
+      <a class="tile live" href="build-a-bot-workshop-lab1/index.html#0" aria-label="Start Build-A-Bot Workshop codelab">
+        <div class="tile-icon" aria-hidden="true">🤖</div>
+        <span class="tile-number">Lab 1 · Intro</span>
+        <span class="tile-title">Build-A-Bot Workshop</span>
+        <p class="tile-desc">Set up a virtual environment, install Google ADK, and build your first LLM agent complete with a web search tool and live testing UI.</p>
+        <div class="tile-footer">
+          <span class="chip chip-live">Available</span>
+          <span class="tile-arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
 
-        <!-- Spinning dashed ring -->
-        <g class="ring-spin">
-          <circle cx="100" cy="95" r="63" fill="none" stroke="#FBBC04" stroke-width="3"
-                  stroke-dasharray="14 7" stroke-linecap="round"/>
-        </g>
-
-        <!-- Inner circle -->
-        <circle cx="100" cy="95" r="56" fill="#1A73E8"/>
-        <circle cx="100" cy="95" r="54" fill="none" stroke="#4285F4" stroke-width="1.5" opacity="0.6"/>
-
-        <!-- Robot icon (simplified SVG shapes — no emoji for file reliability) -->
-        <!-- Head -->
-        <rect x="80" y="62" width="40" height="32" rx="6" fill="#FFFFFF" opacity="0.95"/>
-        <!-- Eyes -->
-        <circle cx="91" cy="76" r="4" fill="#1A73E8"/>
-        <circle cx="109" cy="76" r="4" fill="#1A73E8"/>
-        <circle cx="91" cy="76" r="2" fill="#FFFFFF"/>
-        <circle cx="109" cy="76" r="2" fill="#FFFFFF"/>
-        <!-- Mouth -->
-        <rect x="88" y="85" width="24" height="4" rx="2" fill="#34A853"/>
-        <!-- Antenna -->
-        <line x1="100" y1="62" x2="100" y2="54" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
-        <circle cx="100" cy="51" r="4" fill="#FBBC04"/>
-        <!-- Body -->
-        <rect x="84" y="96" width="32" height="20" rx="4" fill="#FFFFFF" opacity="0.8"/>
-        <rect x="90" y="101" width="8" height="8" rx="2" fill="#EA4335" opacity="0.8"/>
-        <rect x="102" y="101" width="8" height="8" rx="2" fill="#34A853" opacity="0.8"/>
-
-        <!-- Completed banner -->
-        <rect x="26" y="146" width="148" height="20" rx="10" fill="#34A853"/>
-        <text x="100" y="160"
-              text-anchor="middle"
-              font-family="'Google Sans', sans-serif"
-              font-weight="700"
-              font-size="10"
-              fill="#FFFFFF"
-              letter-spacing="1.5">COMPLETED</text>
-
-      </svg>
     </div>
 
-    <!-- Stars -->
-    <div class="stars" aria-label="5 stars">
-      <span class="star" aria-hidden="true">★</span>
-      <span class="star" aria-hidden="true">★</span>
-      <span class="star" aria-hidden="true">★</span>
-      <span class="star" aria-hidden="true">★</span>
-      <span class="star" aria-hidden="true">★</span>
+    <p class="section-label">Coming soon</p>
+    <div class="grid">
+
+      <div class="tile coming" aria-label="Coming soon: Prompting and System Instructions">
+        <div class="tile-icon" aria-hidden="true">💬</div>
+        <span class="tile-number">Lab 2</span>
+        <span class="tile-title">Prompting &amp; System Instructions</span>
+        <p class="tile-desc">Learn how to craft effective instructions and tune agent behavior through prompt design.</p>
+        <div class="tile-footer">
+          <span class="chip chip-coming">Coming soon</span>
+        </div>
+      </div>
+
+      <div class="tile coming" aria-label="Coming soon: Tool Building and Usage">
+        <div class="tile-icon" aria-hidden="true">🛠️</div>
+        <span class="tile-number">Lab 3</span>
+        <span class="tile-title">Tool Building &amp; Usage</span>
+        <p class="tile-desc">Learn how to leverage existing tools or build your own to accomplish your agent goals.</p>
+        <div class="tile-footer">
+          <span class="chip chip-coming">Coming soon</span>
+        </div>
+      </div>
+
+      <div class="tile coming" aria-label="Coming soon: Sub-Agents and Delegation">
+        <div class="tile-icon" aria-hidden="true">👩‍👧‍👦</div>
+        <span class="tile-number">Lab 4</span>
+        <span class="tile-title">Sub-Agents &amp; Delegation</span>
+        <p class="tile-desc">Learn how to delegate between specialized agents to achieve your needs.</p>
+        <div class="tile-footer">
+          <span class="chip chip-coming">Coming soon</span>
+        </div>
+      </div>
+
     </div>
-
-    <h1>You built a bot. 🎉</h1>
-
-    <p class="message">
-      I can't actually grant badges to your account, but I'm genuinely proud of you
-      for wanting to learn. You've taken a step today!
-      Let me know if any of this was helpful or if there are other topics you'd like to see covered!
-    </p>
-
-    <hr />
-
-    <a class="cta"
-       href="https://docs.google.com/forms/d/e/1FAIpQLSeV7II7blo1BE-rdetfXaBXDi9TMZUEKoHL1WCrIj-2Yifdvw/viewform?usp=dialog"
-       target="_blank"
-       rel="noopener noreferrer">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-           stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-           aria-hidden="true">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-      </svg>
-      Share your feedback
-    </a>
-
-    <p class="footer-note">Not-So-Secret Agents · Build-A-Bot Workshop</p>
-
   </div>
+
+  <footer>
+    Built by Tim Finoia &nbsp;·&nbsp;
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeV7II7blo1BE-rdetfXaBXDi9TMZUEKoHL1WCrIj-2Yifdvw/viewform?usp=dialog" target="_blank" rel="noopener">Share feedback</a>
+    &nbsp;·&nbsp;
+    <a href="https://google.github.io/adk-docs/" target="_blank" rel="noopener">ADK Docs</a>
+  </footer>
+
 </body>
 </html>
