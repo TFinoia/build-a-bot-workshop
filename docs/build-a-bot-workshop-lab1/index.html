@@ -29,9 +29,11 @@
     
       <google-codelab-step label="Introduction" duration="0">
         <p class="image-container"><img style="width: 624.00px" src="img\\de5fd1a49c8630fb.png"></p>
-<p><strong>Last Updated:</strong> 2025-11-17</p>
+<p><strong>Last Updated:</strong> 2025-06-03</p>
 <h2 is-upgraded><strong>What is Google Agent Development Kit (ADK)?</strong></h2>
-<p>As Google explains, ADK is &#34;an open-source, code-first Python toolkit designed for building, evaluating, and deploying sophisticated AI agents with flexibility and control.&#34; </p>
+<p>As Google explains, ADK is an open-source, code-first toolkit designed for building, evaluating, and deploying sophisticated AI agents with flexibility and control.</p>
+<aside class="special"><p><strong>2026 Update: </strong>ADK is no longer Python-only. As of 2025–2026, it is available in Python, TypeScript, Go, and Java. This codelab uses Python, which remains the primary language for most ADK resources.</p>
+</aside>
 <p>If you haven&#39;t reviewed Not-So-Secret Agents 2 just yet, take a moment to review for an introduction to what ADK is and how it comes into play for us building our first agent!</p>
 <h2 is-upgraded><strong>What you&#39;ll build</strong></h2>
 <p>In this codelab, you&#39;re going to build the following:</p>
@@ -41,8 +43,8 @@
 <li>__init__.py</li>
 <li>agent.py</li>
 <li>.env</li>
+<li>.gitignore</li>
 </ul>
-<p class="image-container"><img style="width: 137.00px" src="img\\61c7a97ae5a3fac3.png"></p>
 <aside class="warning"><p><strong>Note:</strong> This project example will grow and change depending on your needs and as we add more advanced concepts.</p>
 </aside>
 <h2 class="checklist" is-upgraded><strong>What you&#39;ll learn</strong></h2>
@@ -54,11 +56,15 @@
 <h2 is-upgraded><strong>What you&#39;ll need</strong></h2>
 <ul>
 <li>Access to our sandbox GCP (Gen-Ai-Sandbox)</li>
-<li>If you do not have access, reach out to Tim Finoia (tfinoia@meditech.com)</li>
+<li>If you do not have access, reach out to Tim Finoia (<a href="mailto:tfinoia@meditech.com" target="_blank">tfinoia@meditech.com</a>)</li>
+<li>If you&#39;re non-MEDITECH and found this codelab, just replace the project id with your own Google Cloud Project ID!</li>
 <li>A virtual environment (we&#39;ll walk through this together!)</li>
-<li>Google-adk (we&#39;ll use pip install google-adk for this later)</li>
-<li>Cloud Shell</li>
+<li>google-adk (we&#39;ll use pip install google-adk for this later)</li>
+<li>Python 3.11 or higher ( recommended Python 3.12)</li>
+<li>Cloud Shell (If you&#39;re familiar with IDE&#39;s and would prefer to set up there, feel free!)</li>
 </ul>
+<aside class="special"><p><strong>2026 Update: </strong>Python version matters. ADK 1.x supports Python 3.9–3.12. ADK 2.0 recommends Python 3.11+. Cloud Shell typically provides a compatible version, but it&#39;s worth confirming with: python3 --version</p>
+</aside>
 
 
       </google-codelab-step>
@@ -67,7 +73,7 @@
         <h2 is-upgraded><strong>Getting familiar with Cloud Shell</strong></h2>
 <p>There are a number of ways for us to approach creating our project (Local IDE, Cloud Workstation, Cloud Shell, etc...) but today we&#39;ll be using Cloud Shell to ensure that all users have a common starting point.</p>
 <p>To access Cloud Shell, navigate to the Google Project you&#39;ll be using.  In this case, we&#39;ll be using:</p>
-<p><a href="https://console.cloud.google.com/welcome?pli=1&project=gen-ai-sandbox-388420" target="_blank">Gen-AI-Sandbox</a></p>
+<p>        Gen-AI-Sandbox</p>
 <p>If you&#39;re unable to access the GCP, please contact Tim Finoia. </p>
 <p>From your GCP Home Screen, locate the &#34;Activate Cloud Shell&#34; button in the upper right:</p>
 <p class="image-container"><img style="width: 624.00px" src="img\\a2e34b681652ad2e.png"></p>
@@ -77,7 +83,7 @@
 <p>From your editor, we&#39;ll open a new terminal from the menu bar:</p>
 <p class="image-container"><img style="width: 493.00px" src="img\\75a7e399b8eb231.png"></p>
 <p>You should now see your user@cloudshell followed by your Google project name, and now we&#39;re ready to start setting up!</p>
-<h2 is-upgraded>Virtual Environments In Python</h2>
+<h2 is-upgraded><strong>Virtual Environments In Python</strong></h2>
 <p>It&#39;s always recommended to create a virtual environment for your project, but what is a virtual environment?</p>
 <p>Imagine you&#39;re a chef and you&#39;ve entered your kitchen. You take out all of your ingredients and begin preparing your sauce; chopping and setting aside vegetables and measuring out your spices and liquids that you&#39;ll be adding. Now imagine you&#39;re sharing that kitchen with 3 other chefs who are making their own dishes with their own ingredients and that work area can quickly become chaos as everyone mixes up who needs what. That&#39;s where our virtual environment comes in. </p>
 <p>Picture it as every chef getting their own personal cooking station so that what one person needs is never mixed into someone else&#39;s ingredients. The virtual environment we create allows us to have an isolated version of Python that is specific to our needs, and we can keep projects restricted to only the libraries (and versions) we need. </p>
@@ -122,23 +128,28 @@
 <p>You may be asking, &#34;I just asked for google-adk, why am I seeing so many things downloaded and installed?&#34; These are dependencies. Think of it like buying a remote-control car, and the box includes batteries and a mini-screwdriver. You didn&#39;t specifically <em>buy</em> these items, but they were included because they are necessary for your new car to function (opening the battery compartment and adding batteries to run). PIP is automatically checking what other things are required for your desired library to run, and proactively installs those as well. </p>
 <h3 is-upgraded><strong>Creating Our Project Structure</strong></h3>
 <p>To get started with our project, we&#39;ll need a folder to keep our files in. Let&#39;s create that folder we&#39;ll place our work in by typing the following into our terminal:</p>
-<aside class="special"><p>Mkdir BuildABot</p>
+<aside class="special"><p>mkdir BuildABot</p>
 </aside>
-<p>This is telling the system to create a folder (Mkdir or Make Directory) where we currently are named BuildABot for our project. </p>
+<p>This is telling the system to create a folder (mkdir or Make Directory) where we currently are named BuildABot for our project. </p>
 <p>We&#39;ll then type the following into our terminal to change the directory we&#39;re in (cd) to the new folder we made:</p>
 <aside class="special"><p>cd BuildABot</p>
 </aside>
+<p>Then we&#39;ll create a couple items that we&#39;ll need for later by typing the following command in our terminal:</p>
+<aside class="special"><p>touch .env .gitignore</p>
+</aside>
+<p>‘touch&#39; is a command that tells the system to create the following empty files without actually opening each of them. This helps us create some foundation we can begin building on. </p>
 <p>We&#39;ll then create a folder to store all of our agent files in. This agent folder will let our testing UI recognize the agent later:</p>
-<aside class="special"><p>Mkdir agent</p>
+<aside class="special"><p>mkdir agent</p>
 </aside>
 <p>We&#39;ll then navigate to that new folder before creating our files with another change directory:</p>
 <aside class="special"><p>cd agent</p>
 </aside>
 <p>And lastly, we&#39;ll type this into the terminal:</p>
-<aside class="special"><p>touch __init__.py agent.py .env</p>
+<aside class="special"><p>touch __init__.py agent.py</p>
 </aside>
-<p>‘touch&#39; is a command that tells the system to create the following empty files without actually opening each of them. This helps us create some foundation we can begin building on. </p>
 <aside class="warning"><p><strong>Note: </strong>If you&#39;re not seeing our <em>.env</em> file in your project folder, it&#39;s because some systems like Cloud Shell try to declutter your view by setting files beginning with a period ‘.&#39; to hidden. Go to VIEW on your menu bar, and select TOGGLE HIDDEN FILES to see our <em>.env</em>. We&#39;ll now see what else has been hiding behind the scenes, but we can ignore those other folders.</p>
+</aside>
+<aside class="warning"><p><strong>And one more note: </strong> Now that you&#39;ve built this whole structure by hand, I should probably let you know an easier way; ADK can scaffold it for you. Running ‘adk create&#39; plus the name you want generates this same folder-and-files skeleton automatically (minus the .gitignore). We did it manually on purpose so you understand what each piece is and why it&#39;s there, but once these steps feel like second nature, feel free to let adk create handle the busywork on future projects.</p>
 </aside>
 <p>With that, we&#39;re finally ready to start getting into our Agent build!</p>
 
@@ -158,19 +169,23 @@
 <ul>
 <li>This stands for <strong>Environment</strong>. This file lets us store settings based on where we run the code. This way we can just update the values in our .env file rather than having to make changes directly in the rest of our code. For example, our google project location of us-central1 might not be the case for everyone, so changing a variable of LOCATION=&#39;us-central1&#39; to LOCATION=&#39;us-east3&#39; in our .env file is cleaner and easier than making those changes throughout our agent.py or any other eventual files we need.</li>
 </ul>
-<aside class="warning"><p><strong>Note:</strong> The other benefit of the <em>.env</em> file is <strong>SECURITY</strong>. We can set certain files to be ignored when working with our GitHub repository. Since our <em>.env</em> may contain specifics to what we need, we can ensure the project runs for us without sharing any of those settings or info with others. They can then fill out their own <em>.env</em> file without worrying bots or users will obtain any sensitive information. Also to note, don&#39;t place API keys in your <em>.env</em> file. We have other methods of making use of sensitive items like keys without exposing that (even if we are setting it in .gitignore) </p>
+<aside class="warning"><p><strong>Note:</strong> The other benefit of the <em>.env</em> file is <strong>SECURITY</strong>. We can set certain files to be ignored when working with our GitHub (or Bitbucket) repository. Since our <em>.env</em> may contain specifics to what we need, we can ensure the project runs for us without sharing any of those settings or info with others. They can then fill out their own <em>.env</em> file without worrying bots or users will obtain any sensitive information. Also to note, don&#39;t place API keys in your <em>.env</em> file. We have other methods of making use of sensitive items like keys without exposing that (even if we are setting it in .gitignore) </p>
 </aside>
+<p><em>.gitignore</em></p>
+<ul>
+<li>This is the aforementioned .gitignore from my previous note. This is the file where we list any of the files/folders that should be ignored when we are committing/pushing from our workspace to our repository. You don&#39;t want someone in the repo to have your environment file with your sensitive information and you don&#39;t want your system to try moving your entire virtual environment either. </li>
+</ul>
 <p><em>agent.py</em></p>
 <ul>
 <li>The actual agent code! This file will hold the actual instructions and settings that allow our agent to function. </li>
 </ul>
 <h2 is-upgraded><strong>Starting To Build</strong></h2>
-<p>We now have our 3 files, but what do we do with them? We&#39;ll walk through each file together.</p>
-<h3 is-upgraded>__init__.py</h3>
+<p>We now have our initial files, but what do we do with them? We&#39;ll walk through each file together.</p>
+<h3 is-upgraded><strong>__init__.py</strong></h3>
 <p>Let&#39;s start with our <em>__init__.py</em> file. Open the file and in the editor window, type (or paste) the following:</p>
 <aside class="special"><p>from . import agent</p>
 </aside>
-<p>Our ‘<em>from&#39; </em>lets the system know that a location or path is about to follow for where to look. In our case, our location is a simple ‘<em>.</em>&#39; that says, &#34;the location to look to is the folder we&#39;re already in&#34; (this is called a <em>relative import</em>). Since we&#39;re now looking in our existing folder, we give a command of ‘<em>import&#39;</em> to load something (a class, a file, etc...) from the location we defined. In this case, we telling it to look to our current folder and import the agent module from our agent.py file.</p>
+<p>Our ‘<em>from&#39; </em>lets the system know that a location or path is about to follow for where to look. In our case, our location is a simple ‘<em>.</em>&#39; that says, &#34;the location to look to is the folder we&#39;re already in&#34; (this is called a <em>relative import</em>). Since we&#39;re now looking in our existing folder, we give a command of ‘<em>import&#39;</em> to load something (a class, a file, etc...) from the location we defined. In this case, we tell it to look at our current folder and import the agent module from our agent.py file.</p>
 <p>This __init__.py is the first thing that&#39;ll run when our package is used, so this will make sure our agent code is loaded and ready to go.</p>
 <h3 is-upgraded><strong>.env</strong></h3>
 <p>Now let&#39;s get our environment variables populated. Open the .env file and in the editor screen, type/paste:</p>
@@ -191,14 +206,18 @@
 <ul>
 <li>The &#34;cloud&#34; may sound like this nebulous force in the sky, but realistically it still is coming from a data center <em>somewhere</em>. In our case, this is letting the system know that we&#39;ll be using the location of us-central1. Depending on where we choose, it helps keep costs and latency lower by keeping it as local as possible and by avoiding having things operating across regions instead of within the same one. </li>
 </ul>
+<h3 is-upgraded><strong>.gitignore</strong></h3>
+<p>We&#39;re going to make a very simple addition to this file. Our .env and whatever you named your virtual environment folder (venv if you&#39;re following along):</p>
+<aside class="special"><p>.env</p>
+<p>venv/</p>
+</aside>
 <p>Now that we have our .env file, let&#39;s finally move onto our agent.</p>
 <h3 is-upgraded><strong>agent.py</strong></h3>
 <p>This is where things will get a little busier than the few lines we&#39;d had to add so far in our other files. Open your agent.py file and in the editor, we&#39;ll type/paste:</p>
 <aside class="special"><p>import os</p>
 <p>from dotenv import load_dotenv</p>
-<p>dotenv_path = os.path.join(os.path.dirname(__file__), &#39;.env&#39;)</p>
 <p>load_dotenv(dotenv_path)</p>
-<p>from google.adk.agents import Agent</p>
+<p>from google.adk import Agent</p>
 <p>from google.adk.tools import google_search</p>
 <p>def create_agent() -&gt; Agent:</p>
 <p>    &#34;&#34;&#34;Construct the root agent.&#34;&#34;&#34;</p>
@@ -217,17 +236,19 @@
 <p>    )</p>
 <p>root_agent = create_agent()</p>
 </aside>
+<aside class="special"><p><strong>2026 Update: </strong>The import path  (from google.adk.agents import Agent) is the 1.x style and still works. In ADK 2.0, Google simplified this to: from google.adk import Agent</p>
+<p>Both work if you are on 1.x though.</p>
+</aside>
 <p>Well that&#39;s a mess of text if you&#39;re not familiar with everything going on in there. Let&#39;s break it down:</p>
 <aside class="special"><p>import os</p>
 <p>from dotenv import load_dotenv</p>
-<p>dotenv_path = os.path.join(os.path.dirname(__file__), &#39;.env&#39;)</p>
 <p>load_dotenv(dotenv_path)</p>
 <p>from google.adk.agents import Agent</p>
 <p>from google.adk.tools import google_search</p>
 </aside>
 <p>This section is pulling in our settings and other items that we&#39;ll need to use for our agent to function:</p>
 <ul>
-<li>Our first 4 lines are importing a couple standard python tools that let us communicate with the operating system, and then to allow us to load our .env file contents from the folder we&#39;re in.</li>
+<li>Our first 3 lines are importing a couple standard python tools that let us communicate with the operating system, and then to allow us to load our .env file contents from the folder we&#39;re in.</li>
 <li>The next 2 lines are pulling in some other specific items we need (the Agent class, and the google_search tool) that are part of the google-adk library we installed earlier.  </li>
 </ul>
 <aside class="special"><p>def create_agent() -&gt; Agent:</p>
@@ -282,6 +303,8 @@
 <ul>
 <li>This is the toolkit we&#39;re giving our agent to use as needed. Tools will have their own descriptions and usages so that our agent can decide on if it needs to use a particular tool. We can create our own tools, but in this case we&#39;re just using a standard tool found in Google ADK.</li>
 </ul>
+<aside class="warning"><p><strong>Just a heads up</strong>: Right now our agent has a single tool (<em>google_search</em>) and an empty sub_agents list, so everything plays nicely together. As you start adding your own tools and sub-agents, you&#39;ll find you can&#39;t always just pile every tool onto one agent; some built-in tools like google_search have rules about what they can be combined with. The trick is to give specialist tools their own dedicated agents and let your root agent delegate to them. Don&#39;t worry about the details yet, we&#39;ll dig into exactly how (and why) as you figure out what your agent goals are. For now: one tool, one agent, no surprises!</p>
+</aside>
 <p><strong>)</strong></p>
 <ul>
 <li>Don&#39;t forget that everything we just did is inside that return Agent( we started way back at the top of this section. This closes that out and lets us move on.</li>
@@ -301,14 +324,16 @@
 <p>Go back to your terminal, and make sure we&#39;re still in our virtual environment and in our main project folder:</p>
 <p class="image-container"><img style="width: 512.00px" src="img\\46564d639c2a0403.png"></p>
 <p>In your terminal, type/paste:</p>
-<aside class="special"><p>adk web</p>
+<aside class="special"><p>adk web --allow_origins &#34;regex:https://.*\.cloudshell\.dev&#34;</p>
 </aside>
 <p>ADK web is a built-in web UI from Google ADK that gives us a screen to test the chat of our agent as well as inspect some details such as individual events in the conversation and how the agent is sending messages and processing information behind the scenes. </p>
 <aside class="warning"><p><strong>Note:</strong> During the creation of this class, a new feature was added in ADK Web that enables a visual builder for creating agents similar to services like n8n. We will get more into that feature at a later time. </p>
+<p>Also, with ADK 2.0, there have been some changes to our use of adk web in Cloud Shell. Using the above command avoids a &#34;Failure to create session&#34; error in adk web.</p>
+<p>You can also use adk run agent to run your agent in the terminal directly to check things quickly but adk web has some nice tools/features we can leverage.</p>
 </aside>
 <p>Once the terminal shows all the processes kicking off for us, it should then end with a notification that we can go to a link for local testing:</p>
 <p class="image-container"><img style="width: 624.00px" src="img\\9b79d6f6d457998e.png"></p>
-<p>Ctrl+Click the bottom http link on the INFO line to be taken to the ADK Web UI!</p>
+<p>If you have any issues Ctrl + Left Clicking the URL link then use the <strong>Web Preview</strong> button instead in the Cloud Shell toolbar (it looks like an eye or square in the upper right), then select <strong>Change Port</strong>, enter <strong>8000</strong>, and click <strong>Change and Preview</strong>. This opens the ADK Web UI in a new browser tab.</p>
 <p class="image-container"><img style="width: 624.00px" src="img\\3054c4f04eadb9b5.png"></p>
 <p>If your agent is recognized, you can begin typing a message into the chat as you would with any other LLM you may be familiar with (Gemini, ChatGPT, etc...) and you should be treated to a response. </p>
 <p>Since we gave it a tool of google_search, let&#39;s test that. </p>
