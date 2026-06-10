@@ -214,27 +214,29 @@
 <p>Now that we have our .env file, let&#39;s finally move onto our agent.</p>
 <h3 is-upgraded><strong>agent.py</strong></h3>
 <p>This is where things will get a little busier than the few lines we&#39;d had to add so far in our other files. Open your agent.py file and in the editor, we&#39;ll type/paste:</p>
-<aside class="special"><p>import os</p>
-<p>from dotenv import load_dotenv</p>
-<p>load_dotenv(dotenv_path)</p>
-<p>from google.adk import Agent</p>
-<p>from google.adk.tools import google_search</p>
-<p>def create_agent() -&gt; Agent:</p>
-<p>    &#34;&#34;&#34;Construct the root agent.&#34;&#34;&#34;</p>
-<p>    return Agent(</p>
-<p>        name=&#34;root_agent&#34;,</p>
-<p>        model=&#34;gemini-2.5-flash&#34;,</p>
-<p>        description=&#34;The main orchestrator agent that answers user questions.&#34;,</p>
-<p>        sub_agents=[],</p>
-<p>        instruction=&#34;&#34;&#34;</p>
-<p>        You are a helpful, newly-hired assistant. You will try to answer user questions to the best of your abilities, </p>
-<p>       but only when you can verify that your answers are valid and your sources can be cited. If you are asked to perform a task you are incapable of, </p>
-<p>        you can politely inform the user that you&#39;re still being developed and that you may need to be given a new tool or subagent.</p>
-<p>        Keep your answers friendly and informative without being overly wordy.</p>
-<p>        &#34;&#34;&#34;,</p>
-<p>        tools=[google_search],</p>
-<p>    )</p>
-<p>root_agent = create_agent()</p>
+<aside class="special">
+<pre>import os
+from dotenv import load_dotenv
+load_dotenv(dotenv_path)
+from google.adk import Agent
+from google.adk.tools import google_search
+def create_agent() -&gt; Agent:
+    &#34;&#34;&#34;Construct the root agent.&#34;&#34;&#34;
+    return Agent(
+        name=&#34;root_agent&#34;,
+        model=&#34;gemini-2.5-flash&#34;,
+        description=&#34;The main orchestrator agent that answers user questions.&#34;,
+        sub_agents=[],
+        instruction=&#34;&#34;&#34;
+        You are a helpful, newly-hired assistant. You will try to answer user questions to the best of your abilities, 
+        but only when you can verify that your answers are valid and your sources can be cited. If you are asked to perform a task you are incapable of, 
+        you can politely inform the user that you&#39;re still being developed and that you may need to be given a new tool or subagent.
+        Keep your answers friendly and informative without being overly wordy.
+        &#34;&#34;&#34;,
+        tools=[google_search],
+    )
+root_agent = create_agent()
+</pre>
 </aside>
 <aside class="special"><p><strong>2026 Update: </strong>The import path  (from google.adk.agents import Agent) is the 1.x style and still works. In ADK 2.0, Google simplified this to: from google.adk import Agent</p>
 <p>Both work if you are on 1.x though.</p>
